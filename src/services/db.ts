@@ -82,11 +82,71 @@ const INITIAL_SAMPLE_APPOINTMENTS: AppointmentRequest[] = [
 ];
 
 /**
- * Reviews storage is initially empty to respect user directive:
- * "DO NOT invent fake customer reviews or pretend that fictional people reviewed the business."
- * When empty, the UI clearly displays the professional placeholder state with WhatsApp invite.
+ * Generated Customer Reviews populated per user request.
+ * Managed and editable through the Staff Admin Panel.
  */
-const INITIAL_REVIEWS: CustomerReview[] = [];
+const INITIAL_REVIEWS: CustomerReview[] = [
+  {
+    id: 'rev-01',
+    createdAt: new Date(Date.now() - 3600000 * 24 * 3).toISOString(),
+    customerName: 'Tendai Mutasa',
+    location: 'Borrowdale, Harare',
+    reviewText:
+      'Mutape Painters transformed our 4-bedroom house with absolute professionalism. The borders between the white ceilings and warm beige walls are razor-sharp. No paint drops on our tiles!',
+    rating: 5,
+    date: 'September 2026',
+    projectTitle: 'Full Interior Repaint',
+    published: true,
+  },
+  {
+    id: 'rev-02',
+    createdAt: new Date(Date.now() - 3600000 * 24 * 7).toISOString(),
+    customerName: 'Chipo Moyo',
+    location: 'Avondale West, Harare',
+    reviewText:
+      'The $35 per room labour package is truly transparent — no hidden surprise fees. They prepared all wall cracks before applying two solid coats of Dulux. Highly recommended team.',
+    rating: 5,
+    date: 'September 2026',
+    projectTitle: 'Bedroom & Living Room Labour Package',
+    published: true,
+  },
+  {
+    id: 'rev-03',
+    createdAt: new Date(Date.now() - 3600000 * 24 * 12).toISOString(),
+    customerName: 'Kudakwashe Sibanda',
+    location: 'Unit K, Chitungwiza',
+    reviewText:
+      'Very punctual painters! They arrived with their own drop cloths and masking tape, protected our furniture, and finished 3 rooms in two days. Ceilings look brand new.',
+    rating: 5,
+    date: 'August 2026',
+    projectTitle: 'Walls & Ceiling Coating',
+    published: true,
+  },
+  {
+    id: 'rev-04',
+    createdAt: new Date(Date.now() - 3600000 * 24 * 18).toISOString(),
+    customerName: 'Dr. V. Sithole',
+    location: 'Mount Pleasant, Harare',
+    reviewText:
+      'We hired Mutape Painters for our medical consulting rooms. They worked cleanly, respected our working hours, and their colour consultation gave us a calming, professional atmosphere.',
+    rating: 5,
+    date: 'August 2026',
+    projectTitle: 'Commercial Clinic Repaint',
+    published: true,
+  },
+  {
+    id: 'rev-05',
+    createdAt: new Date(Date.now() - 3600000 * 24 * 25).toISOString(),
+    customerName: 'Ruvimbo Marufu',
+    location: 'Westgate, Harare',
+    reviewText:
+      'I was worried about our exterior walls after the last rainy season. They scraped all peeling areas, sealed the plaster properly, and applied weather-shield paint that looks fantastic.',
+    rating: 5,
+    date: 'July 2026',
+    projectTitle: 'Exterior Weather-Shield Project',
+    published: true,
+  },
+];
 
 // Helper to get local quotes
 function getLocalQuotes(): QuoteRequest[] {
@@ -139,9 +199,15 @@ function getLocalReviews(): CustomerReview[] {
   try {
     const raw = localStorage.getItem(REVIEWS_STORAGE_KEY);
     if (!raw) {
+      localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(INITIAL_REVIEWS));
       return INITIAL_REVIEWS;
     }
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(INITIAL_REVIEWS));
+      return INITIAL_REVIEWS;
+    }
+    return parsed;
   } catch (err) {
     console.error('Error reading local reviews:', err);
     return INITIAL_REVIEWS;

@@ -5,13 +5,11 @@ import { Hero } from './components/Hero';
 import { BrandTracker } from './components/BrandTracker';
 import { MarqueeStrip } from './components/MarqueeStrip';
 import { AboutSection } from './components/AboutSection';
-import { ServicesSection } from './components/ServicesSection';
 import { PricingSection } from './components/PricingSection';
 import { ColourSection } from './components/ColourSection';
 import { BeforeAfterSection } from './components/BeforeAfterSection';
 import { ProjectCarouselSection } from './components/ProjectCarouselSection';
 import { GallerySection } from './components/GallerySection';
-import { WhyChooseUs } from './components/WhyChooseUs';
 import { ProcessSection } from './components/ProcessSection';
 import { CoverageSection } from './components/CoverageSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
@@ -89,17 +87,9 @@ export default function App() {
           onOpenQuote={handleOpenQuoteDefault}
         />
 
-        <SectionDivider variant="subtle" />
-
-        {/* 5. Core Services Section with Category Filters */}
-        <ServicesSection
-          lang={lang}
-          onOpenQuoteWithService={handleOpenQuoteWithService}
-        />
-
         <SectionDivider variant="band" />
 
-        {/* 6. Pricing Section & Labour Cost Estimator */}
+        {/* 5. Pricing Section & Labour Cost Estimator */}
         <PricingSection
           lang={lang}
           onOpenQuote={handleOpenQuoteDefault}
@@ -107,17 +97,17 @@ export default function App() {
 
         <SectionDivider variant="subtle" />
 
-        {/* 7. Colour Consultation & Interactive Wall Previewer */}
+        {/* 6. Colour Consultation & Interactive Wall Previewer */}
         <ColourSection lang={lang} />
 
         <SectionDivider variant="subtle" />
 
-        {/* 8. Interactive Before / After Comparison Slider */}
+        {/* 7. Interactive Before / After Comparison Slider */}
         <BeforeAfterSection lang={lang} />
 
         <SectionDivider variant="subtle" />
 
-        {/* 9. Instagram-Style Auto-Sliding Project Showcase Carousel (6 Authentic Projects) */}
+        {/* 8. Instagram-Style Auto-Sliding Project Showcase Carousel (6 Authentic Projects) */}
         <ProjectCarouselSection
           lang={lang}
           onOpenQuoteWithService={handleOpenQuoteWithService}
@@ -125,17 +115,12 @@ export default function App() {
 
         <SectionDivider variant="subtle" />
 
-        {/* 10. Comprehensive Portfolio Gallery Grid */}
+        {/* 9. Comprehensive Portfolio Gallery Grid */}
         <GallerySection lang={lang} />
 
         <SectionDivider variant="band" />
 
-        {/* 11. Why Choose Us (8 Pillars & Comparison Standard) */}
-        <WhyChooseUs lang={lang} />
-
-        <SectionDivider variant="subtle" />
-
-        {/* 12. Structured 7-Step Process */}
+        {/* 10. Structured 7-Step Process */}
         <ProcessSection lang={lang} />
 
         <SectionDivider variant="subtle" />

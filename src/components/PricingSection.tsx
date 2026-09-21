@@ -249,34 +249,60 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ lang, onOpenQuot
         </div>
 
         {/* Interactive Labour Cost Estimator */}
-        <div className="bg-[#121028] rounded-3xl p-6 sm:p-10 border border-[#292359] shadow-2xl">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2.5 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400">
-              <Calculator className="w-6 h-6" />
+        <div className="bg-[#121028] rounded-3xl p-5 sm:p-10 border border-[#292359] shadow-2xl">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-[#211c47]">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400 shrink-0">
+                <Calculator className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl sm:text-2xl font-black text-white">
+                  {t.pricing.calculatorTitle}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-400">
+                  Plan your budget with realistic Zimbabwean labour estimates.
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xl sm:text-2xl font-black text-white">
-                {t.pricing.calculatorTitle}
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-400">
-                Plan your budget with realistic Zimbabwean labour estimates.
-              </p>
+
+            {/* Instant Mobile Live Estimate Pill Header */}
+            <div className="flex items-center justify-between sm:justify-end gap-3 bg-[#191638] px-4 py-2.5 rounded-2xl border border-orange-500/40">
+              <div className="text-left">
+                <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
+                  Live Estimated Total
+                </span>
+                <span className="text-xs text-orange-400 font-semibold">
+                  {numRooms} {numRooms === 1 ? 'room' : 'rooms'} • {wallCondition} prep
+                </span>
+              </div>
+              <div className="text-2xl sm:text-3xl font-black text-white bg-gradient-to-r from-orange-400 to-amber-300 bg-clip-text text-transparent">
+                ${estimatedLabourTotal}
+              </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            {/* Input Controls */}
-            <div className="space-y-6">
-              {/* Slider for Number of Rooms */}
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <label htmlFor="num-rooms-slider" className="text-xs sm:text-sm font-bold text-slate-200">
-                    {t.pricing.calcRoomsLabel}
-                  </label>
-                  <span className="text-lg font-black text-orange-400 bg-[#191638] px-3 py-1 rounded-lg border border-[#2b2658]">
-                    {numRooms} {numRooms === 1 ? 'Room' : 'Rooms'}
-                  </span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Input Controls (Left Column / Top on Mobile) */}
+            <div className="lg:col-span-7 space-y-6">
+              
+              {/* Slider for Number of Rooms with synchronized display */}
+              <div className="bg-[#161333] p-4 sm:p-5 rounded-2xl border border-[#292359]">
+                <div className="flex justify-between items-center mb-3">
+                  <div>
+                    <label htmlFor="num-rooms-slider" className="text-sm font-bold text-white block">
+                      {t.pricing.calcRoomsLabel}
+                    </label>
+                    <span className="text-xs text-slate-400">
+                      Standard rooms: bedroom, lounge, dining, hallway
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-base sm:text-lg font-black text-orange-400 bg-[#0f0d24] px-3.5 py-1.5 rounded-xl border border-orange-500/40">
+                      {numRooms} {numRooms === 1 ? 'Room' : 'Rooms'}
+                    </span>
+                  </div>
                 </div>
+
                 <input
                   id="num-rooms-slider"
                   type="range"
@@ -285,32 +311,48 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ lang, onOpenQuot
                   step="1"
                   value={numRooms}
                   onChange={(e) => setNumRooms(parseInt(e.target.value, 10))}
-                  className="w-full h-2 bg-[#1f1b47] rounded-lg appearance-none cursor-pointer accent-orange-500"
+                  className="w-full h-3 bg-[#241f52] rounded-lg appearance-none cursor-pointer accent-orange-500 my-2"
                 />
-                <div className="flex justify-between text-[10px] text-slate-400 mt-1">
+                
+                <div className="flex justify-between text-[11px] text-slate-400 font-medium">
                   <span>1 Room</span>
-                  <span>6 Rooms</span>
+                  <span>4 Rooms</span>
+                  <span>8 Rooms</span>
                   <span>12 Rooms</span>
+                </div>
+
+                {/* Instant Inline Calculation Snippet */}
+                <div className="mt-3 pt-3 border-t border-[#231e4e] flex items-center justify-between text-xs text-slate-300">
+                  <span>Labour rate calculation:</span>
+                  <span className="font-mono font-bold text-orange-300">
+                    {numRooms} × ${ratePerRoom} = ${estimatedLabourTotal}
+                  </span>
                 </div>
               </div>
 
               {/* Wall Condition Selector */}
-              <div>
-                <label className="block text-xs sm:text-sm font-bold text-slate-200 mb-2">
+              <div className="bg-[#161333] p-4 sm:p-5 rounded-2xl border border-[#292359]">
+                <label className="block text-sm font-bold text-white mb-1">
                   {t.pricing.calcConditionLabel}
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <p className="text-xs text-slate-400 mb-3">
+                  Wall preparation affects the time and specialized patching needed before painting.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                   <button
                     type="button"
                     onClick={() => setWallCondition('good')}
                     className={`p-3 rounded-xl border text-left transition-all ${
                       wallCondition === 'good'
-                        ? 'bg-orange-500/15 border-orange-500 text-white'
-                        : 'bg-[#151330] border-[#292455] text-slate-300 hover:text-white'
+                        ? 'bg-orange-500/20 border-orange-500 text-white shadow-lg'
+                        : 'bg-[#121028] border-[#292455] text-slate-300 hover:text-white hover:border-[#3d367d]'
                     }`}
                   >
-                    <span className="text-xs font-bold block">{t.pricing.calcConditionGood}</span>
-                    <span className="text-[10px] text-slate-400">$35/room base</span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold block">{t.pricing.calcConditionGood}</span>
+                      {wallCondition === 'good' && <Check className="w-4 h-4 text-orange-400" />}
+                    </div>
+                    <span className="text-[11px] text-orange-400 font-semibold mt-1 block">$35/room base</span>
                   </button>
 
                   <button
@@ -318,12 +360,15 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ lang, onOpenQuot
                     onClick={() => setWallCondition('fair')}
                     className={`p-3 rounded-xl border text-left transition-all ${
                       wallCondition === 'fair'
-                        ? 'bg-orange-500/15 border-orange-500 text-white'
-                        : 'bg-[#151330] border-[#292455] text-slate-300 hover:text-white'
+                        ? 'bg-orange-500/20 border-orange-500 text-white shadow-lg'
+                        : 'bg-[#121028] border-[#292455] text-slate-300 hover:text-white hover:border-[#3d367d]'
                     }`}
                   >
-                    <span className="text-xs font-bold block">{t.pricing.calcConditionFair}</span>
-                    <span className="text-[10px] text-slate-400">+$10 prep/room</span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold block">{t.pricing.calcConditionFair}</span>
+                      {wallCondition === 'fair' && <Check className="w-4 h-4 text-orange-400" />}
+                    </div>
+                    <span className="text-[11px] text-amber-400 font-semibold mt-1 block">+$10 prep/room ($45)</span>
                   </button>
 
                   <button
@@ -331,41 +376,73 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ lang, onOpenQuot
                     onClick={() => setWallCondition('rough')}
                     className={`p-3 rounded-xl border text-left transition-all ${
                       wallCondition === 'rough'
-                        ? 'bg-orange-500/15 border-orange-500 text-white'
-                        : 'bg-[#151330] border-[#292455] text-slate-300 hover:text-white'
+                        ? 'bg-orange-500/20 border-orange-500 text-white shadow-lg'
+                        : 'bg-[#121028] border-[#292455] text-slate-300 hover:text-white hover:border-[#3d367d]'
                     }`}
                   >
-                    <span className="text-xs font-bold block">{t.pricing.calcConditionRough}</span>
-                    <span className="text-[10px] text-slate-400">+$20 prep/room</span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold block">{t.pricing.calcConditionRough}</span>
+                      {wallCondition === 'rough' && <Check className="w-4 h-4 text-orange-400" />}
+                    </div>
+                    <span className="text-[11px] text-rose-400 font-semibold mt-1 block">+$20 prep/room ($55)</span>
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* Calculated Output Card */}
-            <div className="bg-[#181538] rounded-2xl p-6 sm:p-8 border border-[#2f2963] text-center space-y-4">
+            {/* Calculated Output Card (Right Column on Desktop, directly below on Mobile with clear CTA) */}
+            <div className="lg:col-span-5 bg-gradient-to-b from-[#1b173c] to-[#121028] rounded-2xl p-6 sm:p-8 border-2 border-orange-500/40 text-center space-y-4 shadow-xl">
               <span className="text-xs uppercase font-extrabold tracking-wider text-sky-400 block">
                 {t.pricing.calcEstimatedLabour}
               </span>
-              <div className="text-4xl sm:text-5xl font-black text-white">
-                ${estimatedLabourTotal}
-                <span className="text-xs text-slate-400 font-normal ml-2 block sm:inline">
-                  (Estimated labour for {numRooms} rooms)
-                </span>
+              
+              <div>
+                <div className="text-5xl sm:text-6xl font-black text-white tracking-tight">
+                  ${estimatedLabourTotal}
+                </div>
+                <div className="text-xs sm:text-sm font-semibold text-orange-400 mt-1">
+                  Estimated labour for {numRooms} {numRooms === 1 ? 'room' : 'rooms'} ({wallCondition} condition)
+                </div>
               </div>
+
+              <div className="py-3 px-4 rounded-xl bg-[#0f0d24] border border-[#2b2658] text-left text-xs text-slate-300 space-y-1.5">
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Rate per room:</span>
+                  <span className="font-bold text-white">${ratePerRoom} / room</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Number of rooms:</span>
+                  <span className="font-bold text-white">{numRooms}</span>
+                </div>
+                <div className="flex justify-between border-t border-[#231e4e] pt-1.5">
+                  <span className="text-slate-400">Scope:</span>
+                  <span className="font-bold text-emerald-400">2 Full coats • Ceilings & Walls</span>
+                </div>
+              </div>
+
               <p className="text-xs text-slate-300 leading-relaxed">
                 {t.pricing.calcDisclaimer}
               </p>
 
-              <a
-                href={calcWhatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs sm:text-sm py-3 px-4 rounded-xl shadow-lg transition-transform active:scale-95"
-              >
-                <MessageSquare className="w-4 h-4" />
-                <span>{t.pricing.calcCta}</span>
-              </a>
+              <div className="pt-2 flex flex-col gap-2.5">
+                <a
+                  href={calcWhatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm py-3.5 px-4 rounded-xl shadow-lg transition-transform active:scale-95"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  <span>{t.pricing.calcCta}</span>
+                </a>
+
+                <button
+                  type="button"
+                  onClick={onOpenQuote}
+                  className="w-full bg-[#201c44] hover:bg-[#2c265e] text-slate-200 font-bold text-xs py-2.5 px-4 rounded-xl border border-[#3b3474] transition-colors"
+                >
+                  Submit Official Free Quotation Form
+                </button>
+              </div>
             </div>
           </div>
         </div>
