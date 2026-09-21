@@ -1,0 +1,75 @@
+{
+  "entities": {
+    "Quote": {
+      "title": "QuoteRequest",
+      "description": "Customer request for a painting quote",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "whatsapp": { "type": "string", "maxLength": 30 },
+        "email": { "type": "string", "maxLength": 100 },
+        "location": { "type": "string", "maxLength": 200 },
+        "service": { "type": "string", "maxLength": 100 },
+        "scope": { "type": "string", "enum": ["interior", "exterior", "both"] },
+        "numberOfRooms": { "type": "number" },
+        "propertySize": { "type": "string", "maxLength": 100 },
+        "wallCondition": { "type": "string", "maxLength": 50 },
+        "paintPurchased": { "type": "boolean" },
+        "preferredColor": { "type": "string", "maxLength": 100 },
+        "preferredDate": { "type": "string", "maxLength": 50 },
+        "details": { "type": "string", "maxLength": 1000 },
+        "photoUrl": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "enum": ["new", "contacted", "quoted", "booked", "completed", "cancelled"] },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["name", "phone", "whatsapp", "location", "service", "scope", "numberOfRooms", "status", "createdAt"]
+    },
+    "Appointment": {
+      "title": "AppointmentRequest",
+      "description": "Customer booking for an inspection or painting start date",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "whatsapp": { "type": "string", "maxLength": 30 },
+        "email": { "type": "string", "maxLength": 100 },
+        "location": { "type": "string", "maxLength": 200 },
+        "propertyType": { "type": "string", "maxLength": 50 },
+        "serviceRequired": { "type": "string", "maxLength": 100 },
+        "preferredDate": { "type": "string", "maxLength": 50 },
+        "preferredTime": { "type": "string", "maxLength": 50 },
+        "numberOfRooms": { "type": "number" },
+        "message": { "type": "string", "maxLength": 1000 },
+        "status": { "type": "string", "enum": ["new", "confirmed", "completed", "cancelled"] },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["fullName", "phone", "whatsapp", "location", "serviceRequired", "preferredDate", "preferredTime", "status", "createdAt"]
+    },
+    "Admin": {
+      "title": "AdminUser",
+      "description": "Authorized administrator record",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "maxLength": 100 },
+        "role": { "type": "string", "enum": ["admin", "superadmin"] },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "/quotes/{quoteId}": {
+      "schema": { "$ref": "#/entities/Quote" },
+      "description": "Public submissions of painting quotation requests"
+    },
+    "/appointments/{appointmentId}": {
+      "schema": { "$ref": "#/entities/Appointment" },
+      "description": "Customer painting consultation bookings"
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/Admin" },
+      "description": "Whitelisted administrator accounts"
+    }
+  }
+}

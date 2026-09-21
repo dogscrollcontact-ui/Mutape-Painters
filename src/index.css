@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+:root {
+  /* Logo-Derived Brand Color System */
+  /* Primary Navy from Logo Typography & Emblem */
+  --brand-primary: #1e1b4b;       /* Deep Rich Royal Navy */
+  --brand-primary-light: #2e2870; /* Elevated Navy */
+  --brand-primary-dark: #0f0d26;  /* Deep Midnight Navy */
+
+  /* Vibrant Accent Orange from Logo Paint Roller & Swoosh */
+  --brand-accent: #f97316;        /* Bright Tangelo Orange */
+  --brand-accent-hover: #ea580c;  /* Deep Orange Hover */
+  --brand-accent-soft: rgba(249, 115, 22, 0.12);
+
+  /* Vibrant Cyan / Sky Blue from Logo Splash */
+  --brand-cyan: #38bdf8;          /* Pure Sky Cyan */
+  --brand-cyan-soft: rgba(56, 189, 248, 0.14);
+
+  /* Magenta / Pink Accent from Logo Brushwork */
+  --brand-magenta: #ec4899;       /* Vivid Rose Magenta */
+  --brand-magenta-soft: rgba(236, 72, 153, 0.12);
+
+  /* Brand Neutrals & Surfaces */
+  --brand-bg: #090914;            /* Dark Midnight Slate Canvas */
+  --brand-surface: #121124;       /* Card Surface */
+  --brand-surface-elevated: #1a1736;
+  --brand-border: #232048;        /* Subtle Navy Border */
+  --brand-border-highlight: #3b3577;
+  --brand-text: #f8fafc;
+  --brand-text-muted: #94a3b8;
+}
+
+@layer utilities {
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @keyframes marquee-reverse {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
+  }
+
+  .animate-marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 30s linear infinite;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+
+  .animate-marquee-slow {
+    display: flex;
+    width: max-content;
+    animation: marquee 46s linear infinite;
+  }
+
+  .animate-marquee-slow:hover {
+    animation-play-state: paused;
+  }
+
+  .animate-marquee-brands {
+    display: flex;
+    width: max-content;
+    animation: marquee 26s linear infinite;
+  }
+
+  .animate-marquee-brands:hover {
+    animation-play-state: paused;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--brand-bg);
+  color: var(--brand-text);
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar matching logo theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #090914;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2558;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #f97316;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee, .animate-marquee-slow, .animate-marquee-brands {
+    animation: none !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

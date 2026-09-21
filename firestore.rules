@@ -1,0 +1,75 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidQuote(data) {
+      return data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.phone is string && data.phone.size() > 0 && data.phone.size() <= 30 &&
+             data.whatsapp is string && data.whatsapp.size() > 0 && data.whatsapp.size() <= 30 &&
+             data.location is string && data.location.size() > 0 && data.location.size() <= 200 &&
+             data.service is string && data.service.size() > 0 && data.service.size() <= 100 &&
+             data.scope in ['interior', 'exterior', 'both'] &&
+             data.numberOfRooms is number && data.numberOfRooms >= 1 && data.numberOfRooms <= 100 &&
+             data.status in ['new', 'contacted', 'quoted', 'booked', 'completed', 'cancelled'] &&
+             data.createdAt is string && data.createdAt.size() <= 50;
+    }
+
+    function isValidAppointment(data) {
+      return data.fullName is string && data.fullName.size() > 0 && data.fullName.size() <= 100 &&
+             data.phone is string && data.phone.size() > 0 && data.phone.size() <= 30 &&
+             data.whatsapp is string && data.whatsapp.size() > 0 && data.whatsapp.size() <= 30 &&
+             data.location is string && data.location.size() > 0 && data.location.size() <= 200 &&
+             data.serviceRequired is string && data.serviceRequired.size() > 0 && data.serviceRequired.size() <= 100 &&
+             data.preferredDate is string && data.preferredDate.size() > 0 && data.preferredDate.size() <= 50 &&
+             data.preferredTime is string && data.preferredTime.size() > 0 && data.preferredTime.size() <= 50 &&
+             data.status in ['new', 'confirmed', 'completed', 'cancelled'] &&
+             data.createdAt is string && data.createdAt.size() <= 50;
+    }
+
+    // Quotes collection
+    match /quotes/{quoteId} {
+      allow create: if isValidId(quoteId) && isValidQuote(incoming()) && incoming().status == 'new';
+      allow read, delete: if isAdmin();
+      allow update: if isAdmin() && isValidQuote(incoming());
+    }
+
+    // Appointments collection
+    match /appointments/{appointmentId} {
+      allow create: if isValidId(appointmentId) && isValidAppointment(incoming()) && incoming().status == 'new';
+      allow read, delete: if isAdmin();
+      allow update: if isAdmin() && isValidAppointment(incoming());
+    }
+
+    // Admins collection
+    match /admins/{adminId} {
+      allow read: if isSignedIn() && request.auth.uid == adminId;
+      allow write: if false; // Provisioned securely via console or Cloud Functions
+    }
+  }
+}

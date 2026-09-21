@@ -1,0 +1,6 @@
+{
+  "name": "Mutape Painters Zim",
+  "description": "Professional interior and exterior painting services in Zimbabwe. Walls, ceilings, decorative finishes, colour consultation and roof leak repairs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
